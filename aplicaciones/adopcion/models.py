@@ -18,7 +18,6 @@ class Persona(models.Model):
 		return '{} {}'.format(self.nombre, self.apellidos)
 
 
-
 class Solicitud(models.Model):
 	persona = models.ForeignKey(Persona, null=True, blank=True)
 	numero_mascotas = models.IntegerField()

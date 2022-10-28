@@ -1,7 +1,7 @@
 from django import forms
 
 from aplicaciones.mascota.models import Mascota
-from image_uploader_widget.widgets import ImageUploaderWidget
+
 
 class MascotaForm(forms.ModelForm):
 
@@ -29,11 +29,11 @@ class MascotaForm(forms.ModelForm):
 			
 		}
 		widgets = {
-			'nombre': forms.TextInput(attrs={'class':'form-control'}),
-			'sexo': forms.TextInput(attrs={'class':'form-control'}),
-			'edad_aproximada': forms.TextInput(attrs={'class':'form-control'}),
-			'fecha_rescate': forms.TextInput(attrs={'class':'form-control'}),
-			'persona': forms.Select(attrs={'class':'form-control'}),
+			'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+			'sexo': forms.TextInput(attrs={'class': 'form-control'}),
+			'edad_aproximada': forms.TextInput(attrs={'class': 'form-control'}),
+			'fecha_rescate': forms.TextInput(attrs={'class': 'form-control'}),
+			'persona': forms.Select(attrs={'class': 'form-control'}),
 			'vacuna': forms.CheckboxSelectMultiple(),
 
 		}

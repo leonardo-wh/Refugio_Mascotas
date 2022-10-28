@@ -28,15 +28,13 @@ class PersonaForm(forms.ModelForm):
 
 		}
 		widgets = {
-			'nombre': forms.TextInput(attrs={'class':'form-control'}),
-			'apellidos': forms.TextInput(attrs={'class':'form-control'}),
-			'edad': forms.TextInput(attrs={'class':'form-control'}),
-			'telefono': forms.TextInput(attrs={'class':'form-control'}),
-			'email': forms.TextInput(attrs={'class':'form-control'}),
-			'domicilio': forms.Textarea(attrs={'class':'form-control'}),
+			'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+			'apellidos': forms.TextInput(attrs={'class': 'form-control'}),
+			'edad': forms.TextInput(attrs={'class': 'form-control'}),
+			'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+			'email': forms.TextInput(attrs={'class': 'form-control'}),
+			'domicilio': forms.Textarea(attrs={'class': 'form-control'}),
 		}
-
-
 
 
 class SolicitudForm(forms.ModelForm):
@@ -56,8 +54,8 @@ class SolicitudForm(forms.ModelForm):
 
 		}
 		widgets = {
-			'numero_mascotas':forms.TextInput(attrs={'class':'form-control'}),
-			'razones':forms.Textarea(attrs={'class':'form-control'}),
+			'numero_mascotas': forms.TextInput(attrs={'class': 'form-control'}),
+			'razones': forms.Textarea(attrs={'class': 'form-control'}),
 
 		}
 

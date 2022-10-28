@@ -18,13 +18,16 @@ from django.contrib import admin
 
 from django.conf import settings
 from django.conf.urls.static import static
-
+import debug_toolbar
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('aplicaciones.mascota.urls', namespace="mascota")),
     url(r'^adopcion/', include('aplicaciones.adopcion.urls', namespace="adopcion")),
+    url('__debug__/', include(debug_toolbar.urls)),
 
+
+    url(r'^', include('aplicaciones.mascota.urls')),
 ]
 
 

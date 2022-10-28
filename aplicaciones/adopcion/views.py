@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+
 from aplicaciones.adopcion.models import Persona, Solicitud
 from aplicaciones.adopcion.forms import PersonaForm, SolicitudForm
 
@@ -50,7 +51,7 @@ def solicitud_edit(request, pk):
 	return render(request, 'adopcion/solicitud_form.html', {'form':form, 'form2':form2})
 
 def solicitud_delete(request, pk):
-	solicitud = Solicitud.objects.get(id=pk) 
+	solicitud = Solicitud.objects.get(id=pk)
 	if request.method == 'POST':
 		solicitud.delete()
 
@@ -138,10 +139,9 @@ class SolicitudUpdate(UpdateView):
 			form.save()
 			form2.save()
 			return HttpResponseRedirect(self.get_success_url())
-		else: 
+		else:
 			return HttpResponseRedirect(self.get_success_url())
 
-		
 
 class SolicitudDelete(DeleteView):
 	model = Solicitud
