@@ -41,6 +41,7 @@ def mascota_view(request):
 def mascota_list(request):
     mascota = Mascota.objects.all().order_by('id')
     contexto = {'mascotas': mascota}
+    print (contexto)
     return render(request, 'mascota/mascota_list.html', contexto)
 
 
@@ -91,7 +92,6 @@ class MascotaDelete(DeleteView):
 
 # View usando APIView
 class ListMascota(APIView):
-
 
     def get(self, request):
         mascotas = Mascota.objects.all()

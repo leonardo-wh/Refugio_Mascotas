@@ -8,12 +8,12 @@ class MascotaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mascota
         fields = (
+            'id',
             'nombre',
             'sexo',
             'edad_aproximada',
             'fecha_rescate',
             'persona',
-            'vacuna',
             'imagen'
         )
 

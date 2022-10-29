@@ -5,13 +5,15 @@ from aplicaciones.mascota.views import index, mascota_view, mascota_list, mascot
     ListMascota, DetailMascota, list_mascota, detail_mascota, ListMascotaGeneric, DetailMascotaGeneric, \
     ListMascotaView
 
+from .views_api import list_warehouse
+
 from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(
-    'mascotas_view', ListMascotaView, basename='lista-mascota_view'
+    'mascota_view', ListMascotaView, basename='lista-mascota_view'
 )
 
 
@@ -39,4 +41,5 @@ urlpatterns = [
     url(r'^mascotadef/editar/(?P<pk>\d+)$', mascota_edit, name='mascota_editardef'),
     url(r'^mascotadef/eliminar/(?P<pk>\d+)$', mascota_delete, name='mascota_eliminardef'),
 
+    url(r'^mascota_view/listar$', list_warehouse, name='mascota_listar_api'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + router.urls
