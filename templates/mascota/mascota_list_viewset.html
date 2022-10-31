@@ -33,8 +33,8 @@
 				<td><img src="" alt=""></td>
 			{% endif %}
 			<td>
-				<a class="btn btn-primary" href="{% url 'mascota:mascota_editar_api' mascota.id %}">Editar</a>
-				<a class="btn btn-primary" href="{% url 'mascota:mascota_eliminar_api' mascota.id %}">Eliminar</a>
+				<a class="btn btn-primary" href="{% url 'mascota:mascota_editar_viewset' mascota.id %}">Editar</a>
+				<a class="btn btn-primary" href="{% url 'mascota:mascota_eliminar_viewset' mascota.id %}">Eliminar</a>
 			</td>
 		</tr>
 		{% endfor %}

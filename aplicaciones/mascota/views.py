@@ -9,7 +9,7 @@ from aplicaciones.adopcion.forms import Solicitud, Persona
 from rest_framework.views import APIView, Response
 from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, DestroyModelMixin
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from .serializers import MascotaSerializer, PersonaSerializer
@@ -17,8 +17,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-
-
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 
 # Create your views here.
 
@@ -109,6 +108,32 @@ class ListMascota(APIView):
 class DetailMascota(APIView):
     def get_object(self, pk):
         try:
+            return Mascota.objects.get(pk=pk)
+        except Mascota.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        mascota = self.get_object(pk)
+        mascota_json = MascotaSerializer(mascota)
+        return Response(mascota_json.data)
+
+    def put(self, request, pk):
+        mascota = self.get_object(pk)
+        mascota_json = MascotaSerializer(mascota, data=request.data)
+        if mascota_json.is_valid():
+            mascota_json.save()
+            return Response(mascota_json.data)
+        return Response(mascota_json.errors, status=400)
+
+    def delete(self, request, pk):
+        mascota = self.get_object(pk)
+        mascota.delete()
+        return Response(status=204)
+
+
+class DetailPersona(APIView):
+    def get_object(self, pk):
+        try:
             query = Mascota.objects.get(pk=pk)
             return query.persona
         except Mascota.DoesNotExist:
@@ -152,6 +177,29 @@ def list_mascota(request):
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def detail_mascota(request, pk):
     try:
+        mascota = Mascota.objects.get(pk=pk)
+    except Mascota.DoesNotExist:
+        raise Http404
+
+    if request.method == 'GET':
+        mascota_json = MascotaSerializer(mascota)
+        return Response(mascota_json.data)
+
+    if request.method == 'PUT':
+        mascota_json = MascotaSerializer(mascota, data=request.data)
+        if mascota_json.is_valid():
+            mascota_json.save()
+            return Response(mascota_json.data)
+        return Response(mascota_json.errors, status=400)
+
+    if request.method == 'DELETE':
+        mascota.delete()
+        return Response(status=204)
+
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def detail_persona(request, pk):
+    try:
         query = Mascota.objects.get(pk=pk)
         persona = query.persona
     except Mascota.DoesNotExist:
@@ -174,18 +222,20 @@ def detail_mascota(request, pk):
 
 
 # View usando Generic ApiView
-class ListMascotaGeneric(GenericAPIView, ListModelMixin, CreateModelMixin):
+class ListMascotaGeneric(ListModelMixin, CreateModelMixin, UpdateModelMixin, GenericAPIView):
     queryset = Mascota.objects.all()
     serializer_class = MascotaSerializer
 
-    def get(self, request, *arg, **kwargs):
-        return self.list(request, *arg, **kwargs)
-
-    def post(self, request, *arg, **kwargs):
-        return self.create(request, *arg, **kwargs)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
-class DetailMascotaGeneric(GenericAPIView, RetrieveModelMixin):
+class DetailMascotaGeneric(RetrieveUpdateDestroyAPIView):
+    queryset = Mascota.objects.all()
+    serializer_class = MascotaSerializer
+
+
+class DetailPersonaGeneric(GenericAPIView, RetrieveModelMixin):
     queryset = Mascota.objects.all()
     serializer_class = MascotaSerializer
 
@@ -207,5 +257,3 @@ class ListMascotaView(viewsets.ModelViewSet):
         queryset = mascota_instance.persona
         serializer = PersonaSerializer(queryset)
         return Response(serializer.data)
-
-

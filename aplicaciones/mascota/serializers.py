@@ -14,7 +14,6 @@ class MascotaSerializer(serializers.ModelSerializer):
             'edad_aproximada',
             'fecha_rescate',
             'persona',
-            'imagen'
         )
 
 
