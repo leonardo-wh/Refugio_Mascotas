@@ -85,6 +85,25 @@ def delete_mascotas(request, pk):
     return render(request, 'mascota/mascota_delete.html', detail_product)
 
 
+def create_mascotas(request):
+    form = MascotaForm()
+    if request.method == 'POST':
+        form = MascotaForm(request.POST)
+        if form.is_valid():
+            instance = ListMascota.as_view()(request=request)
+            if instance.status_code == status.HTTP_201_CREATED:
+                messages.success(request, "Mascota creada correctamente")
+                return HttpResponseRedirect(reverse('mascota_listar_api'))
+            else:
+                serializers_errors = instance.data.serializer.errors
+                for error in serializers_errors:
+                    if error == 'non_field_errors':
+                        form.add_error('__all__', serializers_errors.get(error)[0])
+                    else:
+                        form.add_error(error, serializers_errors.get(error)[0])
+    return render(request, 'mascota/mascota_form.html', {'form': form})
+
+
 # @apiview
 def list_mascotas_apiview(request):
     instance_api = list_mascota(request)
@@ -156,6 +175,25 @@ def delete_mascotas_apiview(request, pk):
             return HttpResponseRedirect(reverse("mascota_listar_apiview"))
         detail_product = product_instance.data
     return render(request, 'mascota/mascota_delete.html', detail_product)
+
+
+def create_mascotas_apiview(request):
+    form = MascotaForm()
+    if request.method == 'POST':
+        form = MascotaForm(request.POST)
+        if form.is_valid():
+            instance = list_mascota(request=request)
+            if instance.status_code == status.HTTP_201_CREATED:
+                messages.success(request, "Mascota creada correctamente")
+                return HttpResponseRedirect(reverse('mascota_listar_apiview'))
+            else:
+                serializers_errors = instance.data.serializer.errors
+                for error in serializers_errors:
+                    if error == 'non_field_errors':
+                        form.add_error('__all__', serializers_errors.get(error)[0])
+                    else:
+                        form.add_error(error, serializers_errors.get(error)[0])
+    return render(request, 'mascota/mascota_form.html', {'form': form})
 
 
 # Generic view
@@ -231,6 +269,25 @@ def delete_mascotas_generic(request, pk):
     return render(request, 'mascota/mascota_delete.html', detail_product)
 
 
+def create_mascotas_generic(request):
+    form = MascotaForm()
+    if request.method == 'POST':
+        form = MascotaForm(request.POST)
+        if form.is_valid():
+            instance = ListMascotaGeneric.as_view()(request=request)
+            if instance.status_code == status.HTTP_201_CREATED:
+                messages.success(request, "Mascota creada correctamente")
+                return HttpResponseRedirect(reverse('mascota_listar_generic'))
+            else:
+                serializers_errors = instance.data.serializer.errors
+                for error in serializers_errors:
+                    if error == 'non_field_errors':
+                        form.add_error('__all__', serializers_errors.get(error)[0])
+                    else:
+                        form.add_error(error, serializers_errors.get(error)[0])
+    return render(request, 'mascota/mascota_form.html', {'form': form})
+
+
 # Viewsets
 def list_mascotas_viewset(request):
     instance_api = ListMascotaView.as_view({'get': 'list'})(request)
@@ -256,11 +313,11 @@ def edit_mascotas_viewset(request, pk):
             messages.error(request, "No existe esta mascota")
             return HttpResponseRedirect(reverse("mascota_listar_viewset"))
         object = object.data.serializer.instance
-        form = MascotaForm(request.POST, instance=object)
+        form = MascotaForm(request.POST)
 
         if form.is_valid():
-            request.method = "PUT"
-            object_instance = ListMascotaView.as_view({'get': 'list'})(request=request, pk=pk)
+            request.method = "PATCH"
+            object_instance = ListMascotaView.as_view({'patch': 'partial_update'})(request=request, pk=pk)
             if object_instance.status_code == status.HTTP_200_OK:
                 messages.success(request, "Se edito correctamente la mascota.")
             else:
@@ -302,3 +359,22 @@ def delete_mascotas_viewset(request, pk):
             return HttpResponseRedirect(reverse("mascota_listar_viewset"))
         detail_product = instance.data
     return render(request, 'mascota/mascota_delete.html', detail_product)
+
+
+def create_mascotas_viewset(request):
+    form = MascotaForm()
+    if request.method == 'POST':
+        form = MascotaForm(request.POST)
+        if form.is_valid():
+            instance = ListMascotaView.as_view({'post': 'create'})(request=request)
+            if instance.status_code == status.HTTP_201_CREATED:
+                messages.success(request, "Mascota creada correctamente")
+                return HttpResponseRedirect(reverse('mascota_listar_viewset'))
+            else:
+                serializers_errors = instance.data.serializer.errors
+                for error in serializers_errors:
+                    if error == 'non_field_errors':
+                        form.add_error('__all__', serializers_errors.get(error)[0])
+                    else:
+                        form.add_error(error, serializers_errors.get(error)[0])
+    return render(request, 'mascota/mascota_form.html', {'form': form})

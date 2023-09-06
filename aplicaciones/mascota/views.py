@@ -8,8 +8,9 @@ from aplicaciones.adopcion.forms import Solicitud, Persona
 
 from rest_framework.views import APIView, Response
 from rest_framework.decorators import api_view
-from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.generics import GenericAPIView, ListCreateAPIView
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin, \
+    DestroyModelMixin
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from .serializers import MascotaSerializer, PersonaSerializer
@@ -18,6 +19,7 @@ from django.contrib.auth.models import User
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
+
 
 # Create your views here.
 
@@ -222,12 +224,15 @@ def detail_persona(request, pk):
 
 
 # View usando Generic ApiView
-class ListMascotaGeneric(ListModelMixin, CreateModelMixin, UpdateModelMixin, GenericAPIView):
+class ListMascotaGeneric(ListCreateAPIView):
     queryset = Mascota.objects.all()
     serializer_class = MascotaSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     return self.list(request, *args, **kwargs)
+    #
+    # def post(self, request, *args, **kwargs):
+    #     return self.create(request, *args, **kwargs)
 
 
 class DetailMascotaGeneric(RetrieveUpdateDestroyAPIView):

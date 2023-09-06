@@ -1,0 +1,15 @@
+certifi==2021.10.8
+chardet==4.0.0
+Django==1.11.29
+django-debug-toolbar==1.11.1
+django-image-uploader-widget==0.2.0
+djangorestframework==3.9.4
+idna==2.10
+Markdown==3.1.1
+Pillow==6.2.2
+python-decouple==3.6
+pytz==2022.2.1
+requests==2.27.1
+sqlparse==0.3.1
+urllib3==1.26.12
+gunicorn==19.10.0

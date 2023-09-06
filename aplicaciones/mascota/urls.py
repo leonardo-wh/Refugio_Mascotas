@@ -7,7 +7,8 @@ from aplicaciones.mascota.views import index, mascota_view, mascota_list, mascot
 
 from .views_api import list_mascotas, edit_mascotas, delete_mascotas, list_mascotas_apiview, edit_mascotas_apiview, \
     delete_mascotas_apiview, list_mascotas_generic, edit_mascotas_generic, delete_mascotas_generic, \
-    list_mascotas_viewset, edit_mascotas_viewset, delete_mascotas_viewset
+    list_mascotas_viewset, edit_mascotas_viewset, delete_mascotas_viewset, create_mascotas, create_mascotas_apiview, \
+    create_mascotas_generic, create_mascotas_viewset
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -45,18 +46,22 @@ urlpatterns = [
 
 
     url(r'^mascotas_view/listar$', list_mascotas, name='mascota_listar_api'),
+    url(r'^mascotas_view/crear$', create_mascotas, name='mascota_crear_api'),
     url(r'^mascotas_view/editar/(?P<pk>\d+)$', edit_mascotas, name='mascota_editar_api'),
     url(r'^mascotas_view/eliminar/(?P<pk>\d+)$', delete_mascotas, name='mascota_eliminar_api'),
 
     url(r'^mascotas_apiview/listar$', list_mascotas_apiview, name='mascota_listar_apiview'),
+    url(r'^mascotas_apiview/crear$', create_mascotas_apiview, name='mascota_crear_apiview'),
     url(r'^mascotas_apiview/editar/(?P<pk>\d+)$', edit_mascotas_apiview, name='mascota_editar_apiview'),
     url(r'^mascotas_apiview/eliminar/(?P<pk>\d+)$', delete_mascotas_apiview, name='mascota_eliminar_apiview'),
 
     url(r'^mascotas_generic/listar$', list_mascotas_generic, name='mascota_listar_generic'),
+    url(r'^mascotas_generic/crear$', create_mascotas_generic, name='mascota_crear_generic'),
     url(r'^mascotas_generic/editar/(?P<pk>\d+)$', edit_mascotas_generic, name='mascota_editar_generic'),
     url(r'^mascotas_generic/eliminar/(?P<pk>\d+)$', delete_mascotas_generic, name='mascota_eliminar_generic'),
 
     url(r'^mascotas_viewset/listar$', list_mascotas_viewset, name='mascota_listar_viewset'),
+    url(r'^mascotas_viewset/crear$', create_mascotas_viewset, name='mascota_crear_viewset'),
     url(r'^mascotas_viewset/editar/(?P<pk>\d+)$', edit_mascotas_viewset, name='mascota_editar_viewset'),
     url(r'^mascotas_viewset/eliminar/(?P<pk>\d+)$', delete_mascotas_viewset, name='mascota_eliminar_viewset'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + router.urls
