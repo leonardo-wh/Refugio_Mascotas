@@ -1,3 +1,4 @@
+from celery import shared_task
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
@@ -23,8 +24,13 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView
 
 # Create your views here.
 
+@shared_task
+def imprimir_hola():
+    print("Hola")
+
 
 def index(request):
+    a = imprimir_hola.delay()
     return render(request, 'mascota/index.html')
 
 

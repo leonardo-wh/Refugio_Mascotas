@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Django settings for refugio project.
 
@@ -25,7 +27,7 @@ SECRET_KEY = '8bu1l+iq5-8v!6wfy*nctr4=!@p&us47$lv*ha&yn)guop=oq^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['deployleo.com', '127.0.0.1', 'localhost', 'www.deployleo.com']
 
 
 # Application definition
@@ -138,14 +140,15 @@ STATIC_URL = '/static/'
 
 
 
-STATIC_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# STATIC_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'staticfiles'
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 
 
+CELERY_BROKER_URL = 'redis://localhost:6379'
 
 
 
@@ -157,3 +160,15 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+# Configuración de Redis para caché
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://localhost:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
